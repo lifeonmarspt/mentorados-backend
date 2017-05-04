@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "description": "Porto",
     "latitude": 0,
     "longitude": 0,
@@ -8,7 +7,6 @@
     "updated_at": "2017-05-03 10:51:49.49687"
   },
   {
-    "id": 2,
     "description": "Lisbon",
     "latitude": 0,
     "longitude": 0,
@@ -16,7 +14,6 @@
     "updated_at": "2017-05-03 10:51:49.49687"
   },
   {
-    "id": 3,
     "description": "London",
     "latitude": 0,
     "longitude": 0,
@@ -24,7 +21,6 @@
     "updated_at": "2017-05-03 10:51:49.49687"
   },
   {
-    "id": 4,
     "description": "Prague",
     "latitude": 0,
     "longitude": 0,

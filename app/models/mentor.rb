@@ -12,7 +12,6 @@ class Mentor < ApplicationRecord
 private
 
   def set_confirmation_token
-    puts 'benfica'
     self.confirmation_token = SecureRandom.hex
   end
 

@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "name": "Gustus",
     "email": "gustus@gust.us",
     "gender": "M",
@@ -15,7 +14,6 @@
     "updated_at": "2017-05-03 10:51:49.49687"
   },
   {
-    "id": 2,
     "name": "Mário Cuná",
     "email": "mario@cu.na",
     "gender": "M",
@@ -30,7 +28,6 @@
     "updated_at": "2017-05-03 10:51:49.49687"
   },
   {
-    "id": 3,
     "name": "Top Kekks",
     "email": "top@kek.com",
     "gender": "M",
