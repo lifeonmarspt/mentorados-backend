@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Gustus",
+    "email": "gustus@gust.us",
+    "gender": "M",
+    "bio": "top keks with gusto, much loolz yes",
+    "picture": "https://gravatar.com/avatar/4d83b82ad2cf6ed58aefc03239b87de0?s=200",
+    "password": "hunter2",
+    "year_in": 2004,
+    "year_out": 2010,
+    "confirmation_token": "dsfargeg",
+    "confirmed_at": null,
+    "created_at": "2017-05-03 10:51:49.49687",
+    "updated_at": "2017-05-03 10:51:49.49687"
+  },
+  {
+    "id": 2,
+    "name": "Mário Cuná",
+    "email": "mario@cu.na",
+    "gender": "M",
+    "bio": "elite comput3r sk1ll5",
+    "picture": "https://gravatar.com/avatar/4d83b82ad2cf6ed58aefc03239b87de0?s=200",
+    "password": "hunter3",
+    "year_in": 2004,
+    "year_out": 2011,
+    "confirmation_token": "spekekekek",
+    "confirmed_at": null,
+    "created_at": "2017-05-03 10:51:49.49687",
+    "updated_at": "2017-05-03 10:51:49.49687"
+  },
+  {
+    "id": 3,
+    "name": "Top Kekks",
+    "email": "top@kek.com",
+    "gender": "M",
+    "bio": "elite keks",
+    "picture": "https://gravatar.com/avatar/4d83b82ad2cf6ed58aefc03239b87de0?s=200",
+    "password": "hunter3",
+    "year_in": 2004,
+    "year_out": 2011,
+    "confirmation_token": "spekekekek",
+    "confirmed_at": null,
+    "created_at": "2017-05-03 10:51:49.49687",
+    "updated_at": "2017-05-03 10:51:49.49687"
+  }
+]
