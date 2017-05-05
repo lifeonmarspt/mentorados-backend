@@ -17,9 +17,13 @@ class MentorsController < ApplicationController
     @mentor = Mentor.new(@params)
     @mentor.careers = @careers
     @mentor.locations = @locations
-    @mentor.save
 
-    render json: retrieve(@mentor[:id]), status: 201
+    if @mentor.valid? then
+      @mentor.save
+      render json: retrieve(@mentor[:id]), status: 201
+    else
+      render json: @mentor.errors.to_json, status: 400
+    end
 
   end
 
@@ -31,9 +35,13 @@ class MentorsController < ApplicationController
     @mentor.update(@params)
     @mentor.careers = @careers
     @mentor.locations = @locations
-    @mentor.save
 
-    render json: retrieve(@mentor[:id]), status: 200
+    if @mentor.valid? then
+      @mentor.save
+      render json: retrieve(@mentor[:id]), status: 200
+    else
+      render json: @mentor.errors.to_json, status: 400
+    end
 
   end
 
@@ -60,7 +68,7 @@ private
   end
 
   def retrieve(id)
-    Mentor.find(id).to_json(include: [:careers, :locations])
+    Mentor.find(id).to_json(include: [:careers, :locations], except: [:password, :confirmation_token])
   end
 
 end

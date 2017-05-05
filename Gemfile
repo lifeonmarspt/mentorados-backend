@@ -55,3 +55,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # stuff
 gem 'pg'
+gem 'factory_girl'
+gem 'validate_url'
+gem 'validate_email'
