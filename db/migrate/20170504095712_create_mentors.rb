@@ -9,6 +9,7 @@ class CreateMentors < ActiveRecord::Migration[5.1]
       t.string    :password_digest
       t.integer   :year_in,            null: false
       t.integer   :year_out
+      t.boolean   :admin,              default: false
       t.string    :confirmation_token, null: false
       t.timestamp :confirmed_at
       t.timestamps

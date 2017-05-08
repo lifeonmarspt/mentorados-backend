@@ -6,7 +6,7 @@ class CreateMentorsLocations < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_foreign_key :mentors_locations, :mentors
-    add_foreign_key :mentors_locations, :locations
+    add_foreign_key :mentors_locations, :mentors, on_delete: :cascade, on_update: :cascade
+    add_foreign_key :mentors_locations, :locations, on_delete: :cascade, on_update: :cascade
   end
 end

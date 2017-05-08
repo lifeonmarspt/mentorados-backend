@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.string "password_digest"
     t.integer "year_in", null: false
     t.integer "year_out"
+    t.boolean "admin", default: false
     t.string "confirmation_token", null: false
     t.datetime "confirmed_at"
     t.datetime "created_at", null: false
@@ -59,8 +60,8 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "mentors_careers", "careers"
-  add_foreign_key "mentors_careers", "mentors"
-  add_foreign_key "mentors_locations", "locations"
-  add_foreign_key "mentors_locations", "mentors"
+  add_foreign_key "mentors_careers", "careers", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "mentors_careers", "mentors", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "mentors_locations", "locations", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "mentors_locations", "mentors", on_update: :cascade, on_delete: :cascade
 end

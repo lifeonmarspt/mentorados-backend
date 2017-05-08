@@ -1,6 +1,6 @@
 class MentorsController < ApplicationController
 
-  before_action :authenticate_mentor
+  before_action :authenticate_mentor, only: [:create, :update, :destroy]
 
   def index
     @mentors = Mentor.all.to_json(include: [:careers, :locations])
@@ -50,7 +50,9 @@ class MentorsController < ApplicationController
   def destroy
     @mentor = Mentor.find(params[:id])
     @mentor.destroy
-    render status: 204
+    # @todo: render json: '' looks hackish. it's a way i found to stop 'template is missing errors'.
+    # ideally the line below would simply be `render status: 204`
+    render json: '', status: 204
   end
 
 private
