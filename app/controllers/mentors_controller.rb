@@ -35,6 +35,8 @@ class MentorsController < ApplicationController
 
     if mentor.valid? then
       mentor.save
+      # @todo: don't use deliver_now, this blocks the thread.
+      WelcomerMailer.welcome(mentor).deliver_now
       render json: retrieve(mentor[:id]), status: 201
     else
       render json: mentor.errors.to_json, status: 400
