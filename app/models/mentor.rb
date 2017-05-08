@@ -33,6 +33,10 @@ class Mentor < ApplicationRecord
       message: "should be a four-digit year"
     }
 
+  def Mentor.search(q)
+    Mentor.where(["name ilike ? or bio ilike ?", "%#{q}%", "%#{q}%"])
+  end
+
 private
 
   def set_confirmation_token

@@ -3,8 +3,15 @@ class MentorsController < ApplicationController
   before_action :authenticate_mentor, only: [:create, :update, :destroy]
 
   def index
-    mentors = Mentor.all.to_json(include: [:careers, :locations])
-    render json: mentors
+
+    if params[:q] then
+      mentors = Mentor.search(params[:q])
+    else
+      mentors = Mentor.all
+    end
+
+    render json: mentors.to_json(include: [:careers, :locations])
+
   end
 
   def show
