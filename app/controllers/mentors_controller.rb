@@ -1,5 +1,7 @@
 class MentorsController < ApplicationController
 
+  before_action :authenticate_mentor
+
   def index
     @mentors = Mentor.all.to_json(include: [:careers, :locations])
     render json: @mentors

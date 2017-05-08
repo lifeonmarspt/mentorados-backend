@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  post 'login' => 'mentor_token#create'
+
   get 'mentors', to: 'mentors#index'
 
   get 'mentors/:id', to: 'mentors#show'
