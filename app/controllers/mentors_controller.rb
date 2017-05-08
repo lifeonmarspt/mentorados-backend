@@ -3,53 +3,54 @@ class MentorsController < ApplicationController
   before_action :authenticate_mentor, only: [:create, :update, :destroy]
 
   def index
-    @mentors = Mentor.all.to_json(include: [:careers, :locations])
-    render json: @mentors
+    mentors = Mentor.all.to_json(include: [:careers, :locations])
+    render json: mentors
   end
 
   def show
-    @mentor = retrieve(params[:id])
-    render json: @mentor
+    mentor = retrieve(params[:id])
+    render json: mentor
   end
 
   def create
 
-    @params, @careers, @locations = nested_params
+    mentor_params, careers, locations = nested_params
 
-    @mentor = Mentor.new(@params)
-    @mentor.careers = @careers
-    @mentor.locations = @locations
+    mentor = Mentor.new(mentor_params)
+    mentor.careers = careers
+    mentor.locations = locations
 
-    if @mentor.valid? then
-      @mentor.save
-      render json: retrieve(@mentor[:id]), status: 201
+    if mentor.valid? then
+      mentor.save
+      render json: retrieve(mentor[:id]), status: 201
     else
-      render json: @mentor.errors.to_json, status: 400
+      render json: mentor.errors.to_json, status: 400
     end
 
   end
 
   def update
 
-    @params, @careers, @locations = nested_params
+    mentor_params, careers, locations = nested_params
 
-    @mentor = Mentor.find(params[:id]) # nhe, @params e params....
-    @mentor.update(@params)
-    @mentor.careers = @careers
-    @mentor.locations = @locations
+    mentor = Mentor.find(params[:id])
+    mentor.update(mentor_params)
+    mentor.careers = careers
+    mentor.locations = locations
 
-    if @mentor.valid? then
-      @mentor.save
-      render json: retrieve(@mentor[:id]), status: 200
+    if mentor.valid? then
+      mentor.save
+      render json: retrieve(mentor[:id]), status: 200
     else
-      render json: @mentor.errors.to_json, status: 400
+      render json: mentor.errors.to_json, status: 400
     end
 
   end
 
   def destroy
-    @mentor = Mentor.find(params[:id])
-    @mentor.destroy
+    mentor = Mentor.find(params[:id])
+    mentor.destroy
+
     # @todo: render json: '' looks hackish. it's a way i found to stop 'template is missing errors'.
     # ideally the line below would simply be `render status: 204`
     render json: '', status: 204
@@ -63,11 +64,11 @@ private
   end
 
   def nested_params
-    @params = mentor_params
+    params = mentor_params
     [
-      @params.except(:careers, :locations),
-      Career.find((@params[:careers] || []).map { |c| c[:id] }),
-      Location.find((@params[:locations] || []).map { |l| l[:id] })
+      params.except(:careers, :locations),
+      Career.find((params[:careers] || []).map { |c| c[:id] }),
+      Location.find((params[:locations] || []).map { |l| l[:id] })
     ]
   end
 
