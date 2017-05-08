@@ -1,4 +1,4 @@
-class MentorLocation < ApplicationRecord
+class MentorsLocation < ApplicationRecord
   self.table_name = 'mentors_locations'
 
   belongs_to :mentor

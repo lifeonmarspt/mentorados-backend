@@ -1,7 +1,7 @@
 class CareersController < ApplicationController
 
   def index
-    careers = Career.all.to_json
+    careers = Career.all
     render json: careers
   end
 

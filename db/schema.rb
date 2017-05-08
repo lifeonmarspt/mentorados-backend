@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["description"], name: "index_careers_on_description", unique: true
   end
 
   create_table "locations", force: :cascade do |t|
@@ -27,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["description"], name: "index_locations_on_description", unique: true
   end
 
   create_table "mentors", force: :cascade do |t|

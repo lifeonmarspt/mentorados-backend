@@ -6,5 +6,7 @@ class CreateLocations < ActiveRecord::Migration[5.1]
       t.float :longitude
       t.timestamps
     end
+
+    add_index :locations, :description, unique: true
   end
 end

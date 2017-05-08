@@ -1,0 +1,14 @@
+{
+  "mario.carneiro@lifeonmars.pt": {
+    "careers": ["Startup/Scaleup", "Established Company"],
+    "locations": ["Porto"]
+  },
+  "hugo.peixoto@lifeonmars.pt": {
+    "careers": ["Academia", "Freelance"],
+    "locations": ["Lisbon", "Prague"]
+  },
+  "julio.santos@lifeonmars.pt": {
+    "careers": ["Entrepreneurship", "Management"],
+    "locations": ["Porto", "London"]
+  }
+}

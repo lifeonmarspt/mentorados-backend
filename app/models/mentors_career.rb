@@ -1,4 +1,4 @@
-class MentorCareer < ApplicationRecord
+class MentorsCareer < ApplicationRecord
   self.table_name = 'mentors_careers'
 
   belongs_to :mentor

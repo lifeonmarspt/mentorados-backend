@@ -1,32 +1,20 @@
 [
   {
-    "description": "Entrepreneurship",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Entrepreneurship"
   },
   {
-    "description": "Freelance",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Freelance"
   },
   {
-    "description": "Academia",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Academia"
   },
   {
-    "description": "Management",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Management"
   },
   {
-    "description": "Startup/Scaleup",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Startup/Scaleup"
   },
   {
-    "description": "Established Company",
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "description": "Established Company"
   }
 ]

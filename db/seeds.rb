@@ -16,8 +16,18 @@ def populate(model)
 
 end
 
+# populate main tables
 populate(Mentor)
 populate(Location)
 populate(Career)
-populate(MentorCareer)
-populate(MentorLocation)
+
+# create associations
+associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_names: true)
+associations.each do |mentor_email, association|
+  mentor = Mentor.find_by_email(mentor_email)
+  careers = Career.where(description: association[:careers])
+  locations = Location.where(description: association[:locations])
+  mentor.careers = careers
+  mentor.locations = locations
+  mentor.save
+end

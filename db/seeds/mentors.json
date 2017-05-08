@@ -9,9 +9,7 @@
     "year_in": 2004,
     "year_out": 2010,
     "admin": true,
-    "confirmed_at": null,
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "confirmed_at": null
   },
   {
     "name": "Hugo Peixoto",
@@ -22,9 +20,7 @@
     "password": "hunter3",
     "year_in": 2004,
     "year_out": 2011,
-    "confirmed_at": null,
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "confirmed_at": null
   },
   {
     "name": "Júlio Santos",
@@ -35,8 +31,6 @@
     "password": "hunter3",
     "year_in": 2004,
     "year_out": 2011,
-    "confirmed_at": null,
-    "created_at": "2017-05-03 10:51:49.49687",
-    "updated_at": "2017-05-03 10:51:49.49687"
+    "confirmed_at": null
   }
 ]

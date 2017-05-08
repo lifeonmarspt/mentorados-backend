@@ -1,6 +1,3 @@
-require 'securerandom'
-require 'digest/sha1'
-
 class Mentor < ApplicationRecord
 
   has_secure_password
@@ -19,21 +16,19 @@ class Mentor < ApplicationRecord
   validates :picture, url: true
   validates :year_in,
     presence: true,
-    inclusion: { in: 1900..Date.today.year },
-    format: {
-      with: /(19|20)\d{2}/i,
+    inclusion: {
+      in: 1900..Date.today.year,
       message: "should be a four-digit year"
     }
   validates :year_out,
     presence: false,
     allow_nil: true,
-    inclusion: { in: 1900..Date.today.year },
-    format: {
-      with: /(19|20)\d{2}/i,
+    inclusion: {
+      in: 1900..Date.today.year,
       message: "should be a four-digit year"
     }
 
-  def Mentor.search(q)
+  def self.search(q)
     Mentor.where(["name ilike ? or bio ilike ?", "%#{q}%", "%#{q}%"])
   end
 
