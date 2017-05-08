@@ -14,5 +14,7 @@ Rails.application.routes.draw do
 
   delete 'mentors/:id', to: 'mentors#destroy'
 
+  post 'mentors/:id/confirm', to: 'mentors#confirm'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -71,7 +71,7 @@ class MentorsController < ApplicationController
 
   def destroy
 
-    # @todo: i'm sure this check is better abstracted away someplace else, but i don't know where
+    # @todo i'm sure this check is better abstracted away someplace else, but i don't know where
     if not current_mentor.admin then
       render json: '', status: 401
       return
@@ -80,9 +80,24 @@ class MentorsController < ApplicationController
     mentor = Mentor.find(params[:id])
     mentor.destroy
 
-    # @todo: render json: '' looks hackish. it's a way i found to stop 'template is missing errors'.
-    # ideally the line below would simply be `render status: 204`
+    # @todo render json: '' looks hackish. it's a way i found to stop 'template is missing errors'.
+    # @todo ideally the line below would simply be `render status: 204`
     render json: '', status: 204
+  end
+
+  def confirm
+    mentor = Mentor.where(id: params[:id], confirmation_token: params[:confirmation_token], confirmed_at: nil).first
+
+    if mentor.nil?
+      head :not_found
+    else
+      mentor.confirmed_at = Time.now
+      if mentor.save
+        head :ok
+      else
+        render json: mentor.errors, status: :internal_server_error # @todo hide errors in production
+      end
+    end
   end
 
 private
