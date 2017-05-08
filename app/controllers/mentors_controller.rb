@@ -14,6 +14,12 @@ class MentorsController < ApplicationController
 
   def create
 
+    # @todo: i'm sure this check is better abstracted away someplace else, but i don't know where
+    if not current_mentor.admin then
+      render json: '', status: 401
+      return
+    end
+
     mentor_params, careers, locations = nested_params
 
     mentor = Mentor.new(mentor_params)
@@ -30,6 +36,13 @@ class MentorsController < ApplicationController
   end
 
   def update
+
+    # mentors can edit themselves
+    # @todo: i'm sure this check is better abstracted away someplace else, but i don't know where
+    if not current_mentor.admin and current_mentor.id != params[:id].to_i then
+      render json: '', status: 401
+      return
+    end
 
     mentor_params, careers, locations = nested_params
 
@@ -48,6 +61,13 @@ class MentorsController < ApplicationController
   end
 
   def destroy
+
+    # @todo: i'm sure this check is better abstracted away someplace else, but i don't know where
+    if not current_mentor.admin then
+      render json: '', status: 401
+      return
+    end
+
     mentor = Mentor.find(params[:id])
     mentor.destroy
 
