@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  post 'login' => 'mentor_token#create'
+  post 'login', to: 'mentor_token#create'
+
+  get 'careers', to: 'careers#index'
 
   get 'mentors', to: 'mentors#index'
 
