@@ -2,4 +2,11 @@
 
 require_relative 'config/environment'
 
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*'
+  end
+end
+
 run Rails.application

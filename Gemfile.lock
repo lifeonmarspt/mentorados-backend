@@ -94,6 +94,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.1)
+    rack-cors (0.4.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.0)
@@ -167,6 +168,7 @@ DEPENDENCIES
   pg
   puma (~> 3.7)
   pundit
+  rack-cors
   rails (~> 5.1.0)
   selenium-webdriver
   tzinfo-data
