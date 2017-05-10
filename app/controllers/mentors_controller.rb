@@ -13,12 +13,12 @@
       mentors = Mentor.all
     end
 
-    render json: mentors.as_json(include: [:careers, :locations])
+    render json: serialize(mentors)
   end
 
   def show
-    mentor = retrieve(params[:id])
-    render json: mentor
+    mentor = Mentor.find(params[:id])
+    render json: serialize(mentor)
   end
 
   def create
@@ -28,7 +28,7 @@
     if mentor.save
       # @todo: don't use deliver_now, this blocks the thread.
       WelcomerMailer.welcome(mentor).deliver_now
-      render json: retrieve(mentor[:id]), status: :created
+      render json: serialize(mentor), status: :created
     else
       render json: mentor.errors, status: :bad_request
     end
@@ -38,9 +38,8 @@
     mentor = Mentor.find(params[:id])
     authorize mentor
 
-    mentor.update(mentor_params)
-    if mentor.save
-      render json: retrieve(mentor[:id]), status: :ok
+    if mentor.update(mentor_params)
+      render json: serialize(mentor), status: :ok
     else
       render json: mentor.errors, status: :bad_request
     end
@@ -76,8 +75,11 @@ private
     params.permit(:name, :email, :gender, :bio, :picture, :password, :year_in, :year_out, career_ids: [], location_ids: [])
   end
 
-  def retrieve(id)
-    Mentor.find(id).as_json(include: [:careers, :locations], except: [:password, :confirmation_token])
+  def serialize(subject)
+    subject.as_json(include: {
+      careers: { only: [:id, :description] },
+      locations: { only: [:id, :description, :latitude, :longitude] }
+    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])
   end
 
 end
