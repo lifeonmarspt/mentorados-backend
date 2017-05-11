@@ -1,23 +1,28 @@
 class MentorPolicy
-  attr_reader :mentor, :subject
+  attr_reader :user, :mentor
 
-  # both mentor and subject are instances of the Mentor model.
-  # mentor refers to the Mentor instance that is returned by current_mentor
-  # subject refers to the Mentor instance that is being checked for access authorization
-  def initialize(mentor, subject)
+  def initialize(user, mentor)
+    @user = user
     @mentor = mentor
-    @subject = subject
   end
 
-  def destroy?
-    @mentor.admin
+  def index?
+    true
   end
 
-  def update?
-    @mentor.admin or @mentor.id == @subject.id
+  def show?
+    true
   end
 
   def create?
-    @mentor.admin
+    @user.admin
+  end
+
+  def update?
+    @user.admin or @user.id == @mentor.user_id
+  end
+
+  def destroy?
+    @user.admin
   end
 end

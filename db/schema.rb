@@ -32,17 +32,14 @@ ActiveRecord::Schema.define(version: 20170504102820) do
   end
 
   create_table "mentors", force: :cascade do |t|
+    t.integer "user_id"
     t.string "name", null: false
     t.string "email", null: false
     t.string "gender", null: false
     t.text "bio", null: false
     t.string "picture"
-    t.string "password_digest"
     t.integer "year_in", null: false
     t.integer "year_out"
-    t.boolean "admin", default: false
-    t.string "confirmation_token", null: false
-    t.datetime "confirmed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_mentors_on_email", unique: true
@@ -62,6 +59,19 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.string "password_digest"
+    t.boolean "admin", default: false
+    t.string "confirmation_token", null: false
+    t.datetime "confirmed_at"
+    t.datetime "last_login_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "mentors", "users", on_update: :cascade, on_delete: :cascade
   add_foreign_key "mentors_careers", "careers", on_update: :cascade, on_delete: :cascade
   add_foreign_key "mentors_careers", "mentors", on_update: :cascade, on_delete: :cascade
   add_foreign_key "mentors_locations", "locations", on_update: :cascade, on_delete: :cascade

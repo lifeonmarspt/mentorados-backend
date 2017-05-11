@@ -1,10 +1,6 @@
-  class MentorsController < ApplicationController
+class MentorsController < ApplicationController
 
-  before_action :authenticate_mentor, only: [:create, :update, :destroy]
-
-  def pundit_user
-    current_mentor
-  end
+  before_action :authenticate_user, only: [:create, :update, :destroy]
 
   def index
     if params[:q]
@@ -25,9 +21,12 @@
     mentor = Mentor.new(mentor_params)
     authorize mentor
 
+    # if a password is supplied, create a user for this mentor too
+    if user_params[:password]
+      mentor.create_user(user_params)
+    end
+
     if mentor.save
-      # @todo: don't use deliver_now, this blocks the thread.
-      WelcomerMailer.welcome(mentor).deliver_now
       render json: serialize(mentor), status: :created
     else
       render json: mentor.errors, status: :bad_request
@@ -53,30 +52,21 @@
     head :no_content
   end
 
-  def confirm
-    mentor = Mentor.where(id: params[:id], confirmation_token: params[:confirmation_token], confirmed_at: nil).first
-
-    if mentor.nil?
-      head :not_found
-    else
-      mentor.confirmed_at = Time.now
-      if mentor.save
-        head :ok
-      else
-        render json: mentor.errors, status: :internal_server_error # @todo hide errors in production
-      end
-    end
-  end
-
 private
 
   def mentor_params
     params.require(:mentor)
-    params.permit(:name, :email, :gender, :bio, :picture, :password, :year_in, :year_out, career_ids: [], location_ids: [])
+    params.permit(:name, :email, :gender, :bio, :picture, :year_in, :year_out, career_ids: [], location_ids: [])
+  end
+
+  def user_params
+    params.require(:mentor)
+    params.permit(:email, :password)
   end
 
   def serialize(subject)
     subject.as_json(include: {
+      user: { only: [:id, :email ] },
       careers: { only: [:id, :description] },
       locations: { only: [:id, :description, :latitude, :longitude] }
     }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])

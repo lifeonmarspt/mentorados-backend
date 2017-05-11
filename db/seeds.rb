@@ -11,17 +11,25 @@ def populate(model)
   data = JSON.parse(File.read("db/seeds/#{model.to_s.downcase.pluralize}.json"), symbolize_names: true)
 
   data.each do |datum|
-      model.create(datum)
+      model.create!(datum)
   end
 
 end
 
 # populate main tables
+populate(User)
 populate(Mentor)
 populate(Location)
 populate(Career)
 
-# create associations
+# associate users to mentors
+Mentor.all.each do |mentor|
+  user = User.find_by_email(mentor.email)
+  mentor.user = user
+  mentor.save
+end
+
+# create other associations
 associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_names: true)
 associations.each do |mentor_email, association|
   mentor = Mentor.find_by_email(mentor_email)

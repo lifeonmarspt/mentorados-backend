@@ -1,0 +1,15 @@
+[
+  {
+    "email": "mario.carneiro@lifeonmars.pt",
+    "password": "hunter2",
+    "admin": true
+  },
+  {
+    "email": "hugo.peixoto@lifeonmars.pt",
+    "password": "hunter3"
+  },
+  {
+    "email": "julio.santos@lifeonmars.pt",
+    "password": "hunter3"
+  }
+]

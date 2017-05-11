@@ -1,19 +1,16 @@
 class Mentor < ApplicationRecord
 
-  has_secure_password
-
+  belongs_to :user, required: false
   has_many :mentors_careers
   has_many :careers, through: :mentors_careers
   has_many :mentors_locations
   has_many :locations, through: :mentors_locations
 
-  before_create :set_confirmation_token
-
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   validates :gender, presence: true, inclusion: { in: ['M', 'F'] }
   validates :bio, presence: true
-  validates :picture, url: true
+  validates :picture, allow_nil: true, url: true
   validates :year_in,
     presence: true,
     inclusion: {
@@ -30,12 +27,6 @@ class Mentor < ApplicationRecord
 
   def self.search(q)
     Mentor.where(["name ilike ? or bio ilike ?", "%#{q}%", "%#{q}%"])
-  end
-
-private
-
-  def set_confirmation_token
-    self.confirmation_token = SecureRandom.hex
   end
 
 end
