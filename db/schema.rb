@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 20170504102820) do
   enable_extension "plpgsql"
 
   create_table "careers", force: :cascade do |t|
-    t.string "description"
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["description"], name: "index_careers_on_description", unique: true
   end
 
   create_table "locations", force: :cascade do |t|
-    t.string "description"
+    t.string "description", null: false
     t.float "latitude"
     t.float "longitude"
     t.datetime "created_at", null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170504102820) do
   end
 
   create_table "mentors", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "name", null: false
     t.string "email", null: false
     t.string "gender", null: false
@@ -43,20 +43,25 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_mentors_on_email", unique: true
+    t.index ["user_id"], name: "index_mentors_on_user_id", unique: true
   end
 
   create_table "mentors_careers", force: :cascade do |t|
-    t.integer "mentor_id"
-    t.integer "career_id"
+    t.bigint "mentor_id"
+    t.bigint "career_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["career_id"], name: "index_mentors_careers_on_career_id"
+    t.index ["mentor_id"], name: "index_mentors_careers_on_mentor_id"
   end
 
   create_table "mentors_locations", force: :cascade do |t|
-    t.integer "mentor_id"
-    t.integer "location_id"
+    t.bigint "mentor_id"
+    t.bigint "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["location_id"], name: "index_mentors_locations_on_location_id"
+    t.index ["mentor_id"], name: "index_mentors_locations_on_mentor_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,9 +76,9 @@ ActiveRecord::Schema.define(version: 20170504102820) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "mentors", "users", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "mentors_careers", "careers", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "mentors_careers", "mentors", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "mentors_locations", "locations", on_update: :cascade, on_delete: :cascade
-  add_foreign_key "mentors_locations", "mentors", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "mentors", "users"
+  add_foreign_key "mentors_careers", "careers"
+  add_foreign_key "mentors_careers", "mentors"
+  add_foreign_key "mentors_locations", "locations"
+  add_foreign_key "mentors_locations", "mentors"
 end
