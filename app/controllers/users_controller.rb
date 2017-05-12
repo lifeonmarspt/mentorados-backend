@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authenticate_user
 
   def index
     users = User.all
@@ -45,24 +45,15 @@ class UsersController < ApplicationController
   end
 
   def confirm
-    user = User.where(id: params[:id], confirmation_token: params[:confirmation_token], confirmed_at: nil).first
+    user = User.find_by!(id: params[:id], confirmation_token: params[:confirmation_token], confirmed_at: nil)
 
-    if user.nil?
-      head :not_found
-    else
-      user.confirmed_at = Time.now
-      if user.save
-        head :ok
-      else
-        render json: mentor.errors, status: :forbidden
-      end
-    end
+    user.update!(confirmed_at: Time.now)
+    head :ok
   end
 
   private
 
   def user_params
-    params.require(:user)
     params.permit(:email, :password, :admin)
   end
 

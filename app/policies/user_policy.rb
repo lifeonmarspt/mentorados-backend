@@ -26,6 +26,6 @@ class UserPolicy
   end
 
   def destroy?
-    @user.admin and @user.id != @subject_user.id
+    @user.admin && @user.id != @subject_user.id
   end
 end

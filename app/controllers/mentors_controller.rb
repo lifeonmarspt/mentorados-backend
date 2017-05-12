@@ -3,12 +3,11 @@ class MentorsController < ApplicationController
   before_action :authenticate_user, only: [:create, :update, :destroy]
 
   def index
-    if params[:q]
-      mentors = Mentor.search(params[:q])
-    else
+    if query_params.empty?
       mentors = Mentor.all
+    else
+      mentors = Mentor.search(query_params)
     end
-
     render json: serialize(mentors)
   end
 
@@ -18,8 +17,8 @@ class MentorsController < ApplicationController
   end
 
   def create
+    authorize Mentor
     mentor = Mentor.new(mentor_params)
-    authorize mentor
 
     # if a password is supplied, create a user for this mentor too
     if user_params[:password]
@@ -55,13 +54,15 @@ class MentorsController < ApplicationController
 private
 
   def mentor_params
-    params.require(:mentor)
     params.permit(:name, :email, :gender, :bio, :picture, :year_in, :year_out, career_ids: [], location_ids: [])
   end
 
   def user_params
-    params.require(:mentor)
     params.permit(:email, :password)
+  end
+
+  def query_params
+    params.permit(:string, :gender, career_ids: [])
   end
 
   def serialize(subject)

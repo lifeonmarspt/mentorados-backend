@@ -19,7 +19,7 @@ class MentorPolicy
   end
 
   def update?
-    @user.admin or @user.id == @mentor.user_id
+    @user.admin || @user.id == @mentor.user_id
   end
 
   def destroy?
