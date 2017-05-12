@@ -7,11 +7,11 @@ class MentorPolicy
   end
 
   def index?
-    true
+    @user
   end
 
   def show?
-    true
+    @user
   end
 
   def create?
