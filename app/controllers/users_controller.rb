@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user
+  before_action :authenticate_user, only: [:index, :show, :update, :destroy]
 
   def index
     users = User.all
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:email, :password, :admin)
+    params.permit(:email, :password, :password_confirmation, :admin)
   end
 
   def serialize(subject)
