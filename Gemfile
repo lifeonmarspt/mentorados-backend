@@ -39,5 +39,6 @@ gem 'validate_email'
 gem 'knock'
 gem 'pundit'
 gem 'rack-cors'
+gem 'faker', groups: [:development]
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'awesome_print', groups: [:development, :test]

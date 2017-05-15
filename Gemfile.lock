@@ -62,6 +62,8 @@ GEM
     erubi (1.6.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
+    faker (1.7.3)
+      i18n (~> 0.5)
     ffi (1.9.18)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -163,6 +165,7 @@ DEPENDENCIES
   capybara (~> 2.13.0)
   dotenv-rails
   factory_girl
+  faker
   knock
   listen (>= 3.0.5, < 3.2)
   pg

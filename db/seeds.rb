@@ -39,3 +39,22 @@ associations.each do |mentor_email, association|
   mentor.locations = locations
   mentor.save
 end
+
+# Randomly generate mentors
+all_location_ids = Location.all.map { |l| l.id }
+all_career_ids = Career.all.map { |c| c.id }
+
+20.times do
+  mentor = Mentor.new({
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+    gender: ['M', 'F'].sample,
+    bio: Faker::Lorem.paragraphs(5 + rand(5), true).join("\n"),
+    picture: Faker::Avatar.image,
+    year_in: 1995 + rand(15),
+    year_out: [nil, 2001 + rand(10)].sample,
+    location_ids: all_location_ids.sample(2),
+    career_ids: all_career_ids.sample(2)
+  })
+  mentor.save!
+end
