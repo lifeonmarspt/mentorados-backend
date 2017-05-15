@@ -48,7 +48,8 @@ class UsersController < ApplicationController
     user = User.find_by!(id: params[:id], confirmation_token: params[:confirmation_token], confirmed_at: nil)
 
     user.update!(confirmed_at: Time.now)
-    head :ok
+
+    render json: Knock::AuthToken.new(payload: user.to_token_payload), status: :created
   end
 
   private
