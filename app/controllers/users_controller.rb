@@ -61,9 +61,9 @@ class UsersController < ApplicationController
   def serialize(subject)
     subject.as_json(include: {
       mentor: {
-        only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out]
+        only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :created_at, :updated_at]
       }
-    }, only: [:id, :email, :admin])
+    }, only: [:id, :email, :admin, :created_at, :updated_at])
   end
 
 end

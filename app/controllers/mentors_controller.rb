@@ -67,10 +67,10 @@ private
 
   def serialize(subject)
     subject.as_json(include: {
-      user: { only: [:id, :email ] },
+      user: { only: [:id, :email, :created_at, :updated_at] },
       careers: { only: [:id, :description] },
       locations: { only: [:id, :description, :latitude, :longitude] }
-    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])
+    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :created_at, :updated_at])
   end
 
 end
