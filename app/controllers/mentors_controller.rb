@@ -35,7 +35,8 @@ class MentorsController < ApplicationController
   end
 
   def update
-    mentor = authorize Mentor.find(params[:id])
+    mentor = Mentor.find(params[:id])
+    authorize mentor
 
     if mentor.update(mentor_params)
       render json: serialize(mentor), status: :ok
