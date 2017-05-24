@@ -10,15 +10,15 @@ class UserPolicy
   end
 
   def index?
-    true
+    @user.admin
   end
 
   def show?
-    true
+    @user.admin
   end
 
   def create?
-    true
+    @user.admin
   end
 
   def update?

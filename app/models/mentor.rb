@@ -29,7 +29,8 @@ class Mentor < ApplicationRecord
     query = Mentor.all
     query = query.where(["name ilike ? or bio ilike ?", "%#{params[:string]}%", "%#{params[:string]}%"]) if params[:string]
     query = query.where({ gender: params[:gender] }) if params[:gender]
-    query.left_joins(:careers).where(['careers.id in (?)', params[:career_ids]]).distinct
+    query = query.joins(:mentors_careers).where(mentors_careers: { career_id: params[:career_ids] }) if params[:career_ids]
+    query.distinct
   end
 
 end

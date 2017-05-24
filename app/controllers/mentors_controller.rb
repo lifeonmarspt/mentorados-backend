@@ -1,9 +1,7 @@
 class MentorsController < ApplicationController
-
-  before_action :authenticate_user, only: [:create, :update, :destroy]
-
   def index
-    authorize :mentor
+    authorize Mentor
+
     if query_params.empty?
       mentors = Mentor.all
     else
@@ -13,13 +11,14 @@ class MentorsController < ApplicationController
   end
 
   def show
-    authorize :mentor
     mentor = Mentor.find(params[:id])
+    authorize mentor
+
     render json: serialize(mentor)
   end
 
   def create
-    authorize :mentor
+    authorize Mentor
     mentor = Mentor.new(mentor_params)
 
     # if a password is supplied, create a user for this mentor too
@@ -46,14 +45,14 @@ class MentorsController < ApplicationController
   end
 
   def destroy
-    mentor = authorize Mentor.find(params[:id])
+    mentor = Mentor.find(params[:id])
+    authorize mentor
 
     mentor.destroy
     head :no_content
   end
 
-private
-
+  private
   def mentor_params
     params[:career_ids] = (params[:careers] || []).map { |c| c[:id] }
     params[:location_ids] = (params[:locations] || []).map { |l| l[:id] }
@@ -70,10 +69,10 @@ private
 
   def serialize(subject)
     subject.as_json(include: {
-      user: { only: [:id, :email, :created_at, :updated_at] },
+      user: { only: [:id, :email] },
       careers: { only: [:id, :description] },
       locations: { only: [:id, :description, :latitude, :longitude] }
-    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :created_at, :updated_at])
+    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])
   end
 
 end

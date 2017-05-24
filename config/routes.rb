@@ -6,7 +6,16 @@ Rails.application.routes.draw do
     member do
       post :confirm
     end
+
+    collection do
+      post :recover
+      get "reset-token/:token", to: 'users#reset_token'
+      put :password
+    end
   end
+
   get 'careers', to: 'careers#index'
   post 'login', to: 'user_token#create'
+
+  get 'meta', to: 'meta#index'
 end

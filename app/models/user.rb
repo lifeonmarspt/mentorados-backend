@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-
   has_one :mentor
 
   has_secure_password
@@ -21,11 +20,8 @@ class User < ApplicationRecord
     self.attributes.symbolize_keys.slice(:id, :email, :admin)
   end
 
-
-private
-
+  private
   def set_confirmation_token
     self.confirmation_token = SecureRandom.hex
   end
-
 end
