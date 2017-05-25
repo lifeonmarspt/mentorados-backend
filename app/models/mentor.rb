@@ -34,7 +34,7 @@ class Mentor < ApplicationRecord
   end
 
   def self.search(params)
-    mentors = Mentor.joins(:careers, :locations)
+    mentors = Mentor.left_outer_joins(:careers, :locations)
 
     mentors = sanitize_sql_like(params[:string]).
       split(/\s/).
