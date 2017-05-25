@@ -25,12 +25,25 @@ class Mentor < ApplicationRecord
       message: "should be a four-digit year"
     }
 
-  def self.search(params)
-    query = Mentor.all
-    query = query.where(["name ilike ? or bio ilike ?", "%#{params[:string]}%", "%#{params[:string]}%"]) if params[:string]
-    query = query.where({ gender: params[:gender] }) if params[:gender]
-    query = query.joins(:mentors_careers).where(mentors_careers: { career_id: params[:career_ids] }) if params[:career_ids]
-    query.distinct
+  SEARCHABLE_FIELDS = ["name", "bio", "locations.description", "careers.description"]
+
+  def self.search_word(word)
+    SEARCHABLE_FIELDS.map do |field|
+      where(["unaccent(#{field}) ILIKE CONCAT('%', unaccent(?), '%')", word])
+    end.reduce(&:or)
   end
 
+  def self.search(params)
+    mentors = Mentor.joins(:careers, :locations)
+
+    mentors = sanitize_sql_like(params[:string]).
+      split(/\s/).
+      map { |word| mentors.search_word(word) }.
+      reduce(mentors, &:merge)
+
+    mentors = mentors.where(mentors_careers: { career_id: params[:career_ids] }) if params[:career_ids]
+    mentors = mentors.where({ gender: params[:gender] }) if params[:gender] # this will be gone when we have traits
+
+    mentors.distinct
+  end
 end
