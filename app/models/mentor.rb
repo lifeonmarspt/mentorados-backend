@@ -39,7 +39,7 @@ class Mentor < ApplicationRecord
     mentors = sanitize_sql_like(params[:string]).
       split(/\s/).
       map { |word| mentors.search_word(word) }.
-      reduce(mentors, &:merge)
+      reduce(mentors, &:merge) if params[:string]
 
     mentors = mentors.where(mentors_careers: { career_id: params[:career_ids] }) if params[:career_ids]
     mentors = mentors.where({ gender: params[:gender] }) if params[:gender] # this will be gone when we have traits
