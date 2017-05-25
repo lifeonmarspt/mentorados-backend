@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, email: true
 
+  validate :validate_feup_email, on: :create
+
   def self.from_token_request request
     email = request.params["auth"] && request.params["auth"]["email"]
     self.where({ email: email }).where.not({ confirmed_at: nil }).first
@@ -23,5 +25,11 @@ class User < ApplicationRecord
   private
   def set_confirmation_token
     self.confirmation_token = SecureRandom.hex
+  end
+
+  def validate_feup_email
+    if email.split('@').last != "fe.up.pt"
+      errors.add(:email, "must end with fe.up.pt")
+    end
   end
 end
