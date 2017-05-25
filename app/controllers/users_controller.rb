@@ -1,13 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, only: [:index, :show, :update, :destroy]
 
-  def index
-    authorize User
-
-    users = User.all
-    render json: serialize(users)
-  end
-
   def show
     user = User.find(params[:id])
     authorize user
@@ -37,14 +30,6 @@ class UsersController < ApplicationController
     else
       render json: user.errors, status: :bad_request
     end
-  end
-
-  def destroy
-    user = User.find(params[:id])
-    authorize user
-
-    user.destroy
-    head :no_content
   end
 
   def confirm
