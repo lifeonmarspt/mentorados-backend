@@ -2,7 +2,7 @@ class Admin::MentorsController < ApplicationController
   def index
     authorize Mentor
 
-    render json: serialize(Mentor.all)
+    render json: serialize(Mentor.includes(:careers))
   end
 
   def show
