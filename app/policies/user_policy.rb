@@ -9,15 +9,20 @@ class UserPolicy
     @subject_user = subject_user
   end
 
+  def index?
+    @user && @user.admin
+  end
+
+
   def create?
     !@user
   end
 
   def show?
-    @user && @user.id == @subject_user.id
+    @user && (@user.admin || @user.id == @subject_user.id)
   end
 
   def update?
-    @user && @user.id == @subject_user.id
+    @user && (@user.admin || @user.id == @subject_user.id)
   end
 end
