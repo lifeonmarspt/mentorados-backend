@@ -55,8 +55,7 @@ class MentorsController < ApplicationController
   private
   def mentor_params
     params[:career_ids] = (params[:careers] || []).map { |c| c[:id] }
-    params[:location_ids] = (params[:locations] || []).map { |l| l[:id] }
-    params.permit(:name, :email, :gender, :bio, :picture, :year_in, :year_out, career_ids: [], location_ids: [])
+    params.permit(:name, :email, :gender, :bio, :picture, :year_in, :year_out, career_ids: [])
   end
 
   def user_params
@@ -71,8 +70,7 @@ class MentorsController < ApplicationController
     subject.as_json(include: {
       user: { only: [:id, :email] },
       careers: { only: [:id, :description] },
-      locations: { only: [:id, :description, :latitude, :longitude] }
-    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links])
+    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links, :location])
   end
 
 end

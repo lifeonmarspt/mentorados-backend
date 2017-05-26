@@ -3,8 +3,6 @@ class Mentor < ApplicationRecord
   belongs_to :user, required: false
   has_many :mentors_careers
   has_many :careers, through: :mentors_careers
-  has_many :mentors_locations
-  has_many :locations, through: :mentors_locations
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
@@ -25,7 +23,7 @@ class Mentor < ApplicationRecord
       message: "should be a four-digit year"
     }
 
-  SEARCHABLE_FIELDS = ["name", "bio", "locations.description", "careers.description"]
+  SEARCHABLE_FIELDS = ["name", "bio", "location", "careers.description"]
 
   before_save do
     self.links = links.reject(&:blank?)
@@ -38,7 +36,7 @@ class Mentor < ApplicationRecord
   end
 
   def self.search(params)
-    mentors = Mentor.left_outer_joins(:careers, :locations)
+    mentors = Mentor.left_outer_joins(:careers)
 
     mentors = sanitize_sql_like(params[:string]).
       split(/\s/).

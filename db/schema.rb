@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526115513) do
+ActiveRecord::Schema.define(version: 20170526134612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,15 +21,6 @@ ActiveRecord::Schema.define(version: 20170526115513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["description"], name: "index_careers_on_description", unique: true
-  end
-
-  create_table "locations", force: :cascade do |t|
-    t.string "description", null: false
-    t.float "latitude"
-    t.float "longitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["description"], name: "index_locations_on_description", unique: true
   end
 
   create_table "mentors", force: :cascade do |t|
@@ -44,6 +35,7 @@ ActiveRecord::Schema.define(version: 20170526115513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "links", default: [], array: true
+    t.text "location"
     t.index ["email"], name: "index_mentors_on_email", unique: true
     t.index ["user_id"], name: "index_mentors_on_user_id", unique: true
   end
@@ -55,15 +47,6 @@ ActiveRecord::Schema.define(version: 20170526115513) do
     t.datetime "updated_at", null: false
     t.index ["career_id"], name: "index_mentors_careers_on_career_id"
     t.index ["mentor_id"], name: "index_mentors_careers_on_mentor_id"
-  end
-
-  create_table "mentors_locations", force: :cascade do |t|
-    t.bigint "mentor_id"
-    t.bigint "location_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["location_id"], name: "index_mentors_locations_on_location_id"
-    t.index ["mentor_id"], name: "index_mentors_locations_on_mentor_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,6 +66,4 @@ ActiveRecord::Schema.define(version: 20170526115513) do
   add_foreign_key "mentors", "users"
   add_foreign_key "mentors_careers", "careers"
   add_foreign_key "mentors_careers", "mentors"
-  add_foreign_key "mentors_locations", "locations"
-  add_foreign_key "mentors_locations", "mentors"
 end

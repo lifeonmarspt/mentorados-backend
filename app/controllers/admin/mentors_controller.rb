@@ -47,6 +47,7 @@ class Admin::MentorsController < ApplicationController
     params.permit(
       :name,
       :email,
+      :location,
       :gender,
       :bio,
       :picture,
@@ -54,14 +55,13 @@ class Admin::MentorsController < ApplicationController
       :year_out,
       links: [],
       career_ids: [],
-      location_ids: [],
     )
   end
 
   def serialize(subject)
     subject.as_json(
-      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links],
-      methods: [:career_ids, :location_ids],
+      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links, :location],
+      methods: [:career_ids],
     )
   end
 end

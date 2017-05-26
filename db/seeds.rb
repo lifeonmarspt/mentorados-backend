@@ -19,7 +19,6 @@ end
 # populate main tables
 populate(User)
 populate(Mentor)
-populate(Location)
 populate(Career)
 
 # associate users to mentors
@@ -34,14 +33,11 @@ associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_nam
 associations.each do |mentor_email, association|
   mentor = Mentor.find_by_email(mentor_email)
   careers = Career.where(description: association[:careers])
-  locations = Location.where(description: association[:locations])
   mentor.careers = careers
-  mentor.locations = locations
   mentor.save
 end
 
 # Randomly generate mentors
-all_location_ids = Location.all.map { |l| l.id }
 all_career_ids = Career.all.map { |c| c.id }
 
 20.times do
@@ -53,7 +49,6 @@ all_career_ids = Career.all.map { |c| c.id }
     picture: Faker::Avatar.image,
     year_in: 1995 + rand(15),
     year_out: [nil, 2001 + rand(10)].sample,
-    location_ids: all_location_ids.sample(2),
     career_ids: all_career_ids.sample(2)
   })
   mentor.save!
