@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
   def create
     authorize User
-    user = User.new(user_params)
+    user = User.new(user_params.merge(signup: true))
 
     if user.save
       # @todo don't use deliver_now, this blocks the thread.

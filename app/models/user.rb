@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   validate :validate_feup_email, on: :create
 
+  attr_accessor :signup
+
   def self.from_token_request request
     email = request.params["auth"] && request.params["auth"]["email"]
     self.where({ email: email }).where.not({ confirmed_at: nil }).first
@@ -28,7 +30,7 @@ class User < ApplicationRecord
   end
 
   def validate_feup_email
-    if email.split('@').last != "fe.up.pt"
+    if signup && email.split('@').last != "fe.up.pt"
       errors.add(:email, "must end with fe.up.pt")
     end
   end
