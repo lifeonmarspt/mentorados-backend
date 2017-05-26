@@ -44,12 +44,24 @@ class Admin::MentorsController < ApplicationController
 
   private
   def mentor_params
-    params[:career_ids] = (params[:careers] || []).map { |c| c[:id] }
-    params[:location_ids] = (params[:locations] || []).map { |l| l[:id] }
-    params.permit(:name, :email, :gender, :bio, :picture, :year_in, :year_out, career_ids: [], location_ids: [])
+    params.permit(
+      :name,
+      :email,
+      :gender,
+      :bio,
+      :picture,
+      :year_in,
+      :year_out,
+      links: [],
+      career_ids: [],
+      location_ids: [],
+    )
   end
 
   def serialize(subject)
-    subject.as_json(only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])
+    subject.as_json(
+      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links],
+      methods: [:career_ids, :location_ids],
+    )
   end
 end

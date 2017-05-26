@@ -27,6 +27,10 @@ class Mentor < ApplicationRecord
 
   SEARCHABLE_FIELDS = ["name", "bio", "locations.description", "careers.description"]
 
+  before_save do
+    self.links = links.reject(&:blank?)
+  end
+
   def self.search_word(word)
     SEARCHABLE_FIELDS.map do |field|
       where(["unaccent(#{field}) ILIKE CONCAT('%', unaccent(?), '%')", word])

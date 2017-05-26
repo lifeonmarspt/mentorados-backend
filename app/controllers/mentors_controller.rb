@@ -72,7 +72,7 @@ class MentorsController < ApplicationController
       user: { only: [:id, :email] },
       careers: { only: [:id, :description] },
       locations: { only: [:id, :description, :latitude, :longitude] }
-    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out])
+    }, only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links])
   end
 
 end

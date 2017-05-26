@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525112756) do
+ActiveRecord::Schema.define(version: 20170526115513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170525112756) do
     t.integer "year_out"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "links", default: [], array: true
     t.index ["email"], name: "index_mentors_on_email", unique: true
     t.index ["user_id"], name: "index_mentors_on_user_id", unique: true
   end
