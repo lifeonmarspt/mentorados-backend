@@ -53,6 +53,7 @@ class Admin::MentorsController < ApplicationController
       :picture,
       :year_in,
       :year_out,
+      :active,
       links: [],
       career_ids: [],
     )
@@ -60,7 +61,7 @@ class Admin::MentorsController < ApplicationController
 
   def serialize(subject)
     subject.as_json(
-      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links, :location],
+      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links, :location, :user_id, :active],
       methods: [:career_ids],
     )
   end

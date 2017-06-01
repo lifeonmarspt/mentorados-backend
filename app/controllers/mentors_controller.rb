@@ -1,12 +1,8 @@
 class MentorsController < ApplicationController
   def index
     authorize Mentor
+    mentors = Mentor.active.search(query_params)
 
-    if query_params.empty?
-      mentors = Mentor.all
-    else
-      mentors = Mentor.search(query_params)
-    end
     render json: serialize(mentors)
   end
 

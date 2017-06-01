@@ -4,6 +4,8 @@ class Mentor < ApplicationRecord
   has_many :mentors_careers
   has_many :careers, through: :mentors_careers
 
+  scope :active, -> { where(active: true) }
+
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   validates :gender, presence: true, inclusion: { in: ['M', 'F'] }
