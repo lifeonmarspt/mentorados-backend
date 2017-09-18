@@ -1,7 +1,4 @@
-class MetaPolicy
-  def initialize(user, mentor)
-  end
-
+class MetaPolicy < ApplicationPolicy
   def index?
     true
   end

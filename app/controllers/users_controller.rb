@@ -1,4 +1,14 @@
 class UsersController < ApplicationController
+  def me
+    skip_authorization
+
+    if current_user
+      render json: serialize(current_user)
+    else
+      head :not_found
+    end
+  end
+
   def show
     user = User.find(params[:id])
     authorize user
