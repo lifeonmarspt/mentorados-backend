@@ -18,6 +18,7 @@ end
 
 # populate main tables
 populate(Career)
+populate(User)
 
 ## create other associations
 #associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_names: true)
@@ -33,24 +34,24 @@ populate(Career)
 #  user.save
 #end
 #
-## Randomly generate mentors
-#all_career_ids = Career.all.map { |c| c.id }
-#
-#20.times do
-#  user = User.create!(
-#    email: Faker::Internet.email,
-#    password: "password",
-#  )
-#
-#  Mentor.create!(
-#    name: Faker::Name.name,
-#    gender: ['M', 'F'].sample,
-#    bio: Faker::Lorem.paragraphs(5 + rand(5), true).join("\n"),
-#    picture: Faker::Avatar.image,
-#    year_in: 1995 + rand(15),
-#    year_out: [nil, 2001 + rand(10)].sample,
-#    career_ids: all_career_ids.sample(2),
-#    user: user,
-#    active: [true, false].sample,
-#  )
-#end
+# Randomly generate mentors
+all_career_ids = Career.all.map(&:id)
+
+20.times do
+  avatar = Faker::Avatar.image
+
+  User.create!(
+    email: Faker::Internet.email,
+    password: "password",
+    admin: false,
+    mentor: true,
+    name: Faker::Name.name,
+    bio: Faker::Lorem.paragraphs(5 + rand(5), true).join("\n"),
+    picture_url: avatar,
+    picture: avatar,
+    year_in: 1995 + rand(15),
+    year_out: [nil, 2001 + rand(10)].sample,
+    career_ids: all_career_ids.sample(2),
+    active: [true, false].sample,
+  )
+end

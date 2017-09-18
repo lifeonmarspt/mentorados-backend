@@ -2,17 +2,14 @@
   {
     "email": "mario.carneiro@lifeonmars.pt",
     "password": "hunter2",
-    "confirmed_at": "2017-05-15 22:48:00 +0100",
     "admin": true
   },
   {
     "email": "hugo@lifeonmars.pt",
-    "password": "hunter3",
-    "confirmed_at": "2017-05-15 22:48:00 +0100"
+    "password": "hunter3"
   },
   {
     "email": "julio@lifeonmars.pt",
-    "password": "hunter3",
-    "confirmed_at": "2017-05-15 22:48:00 +0100"
+    "password": "hunter3"
   }
 ]

@@ -7,7 +7,11 @@ Rails.application.routes.draw do
   end
 
   resources :mentors, only: [:index]
-  resources :users, only: [:show, :create, :update]
+  resources :users, only: [:show, :create, :update] do
+    collection do
+      get :me
+    end
+  end
 
   resources :sessions, only: [:create]
 

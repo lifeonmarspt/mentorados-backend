@@ -1,11 +1,4 @@
-class MentorPolicy
-  attr_reader :user, :mentor
-
-  def initialize(user, mentor)
-    @user = user
-    @mentor = mentor
-  end
-
+class MentorPolicy < ApplicationPolicy
   def index?
     @user
   end
@@ -19,7 +12,7 @@ class MentorPolicy
   end
 
   def update?
-    @user.admin || @user.id == @mentor.user_id
+    @user.admin || @user.id == @record.user_id
   end
 
   def destroy?
