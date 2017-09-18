@@ -7,7 +7,6 @@ class Mentor < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: true, email: true
   validates :gender, presence: true, inclusion: { in: ['M', 'F'] }
   validates :bio, presence: true
   validates :picture, allow_nil: true, url: true
@@ -24,6 +23,8 @@ class Mentor < ApplicationRecord
       in: 1900..Date.today.year,
       message: "should be a four-digit year"
     }
+
+  accepts_nested_attributes_for :user
 
   SEARCHABLE_FIELDS = ["name", "bio", "location", "careers.description"]
 

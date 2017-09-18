@@ -7,19 +7,11 @@ Rails.application.routes.draw do
   end
 
   resources :mentors, only: [:index]
-  resources :users, only: [:show, :create, :update] do
-    member do
-      post :confirm
-    end
+  resources :users, only: [:show, :create, :update]
 
-    collection do
-      post :recover
-      get "reset-token/:token", to: 'users#reset_token'
-      put :password
-    end
-  end
+  resources :sessions, only: [:create]
 
-  post 'login', to: 'user_token#create'
+  resources :password_recovery_tokens, only: [:create, :show], constraints: { id: /.*/ }
 
   get 'meta', to: 'meta#index'
 end

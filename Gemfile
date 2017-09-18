@@ -11,6 +11,7 @@ gem 'rails', '~> 5.1.0'
 
 gem 'puma', '~> 3.7'
 gem 'foreman'
+gem 'active_model_serializers', '~> 0.10.0'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'

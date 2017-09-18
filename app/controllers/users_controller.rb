@@ -12,7 +12,8 @@ class UsersController < ApplicationController
 
     if user.save
       # @todo don't use deliver_now, this blocks the thread.
-      WelcomerMailer.welcome(user).deliver_now
+      token = Knock::AuthToken.new(payload: user.to_token_payload).token
+      UserMailer.welcome(user, token).deliver_now
       render json: serialize(user), status: :created
     else
       render json: user.errors, status: :bad_request
@@ -23,7 +24,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     authorize user
 
-    if user.update(user_params)
+    if UserUpdater.update(user, permitted_attributes(user))
       render json: serialize(user), status: :ok
     else
       render json: user.errors, status: :bad_request
@@ -46,7 +47,7 @@ class UsersController < ApplicationController
       password_reset_token_expires_at: password_reset_token_validity.from_now,
     )
 
-    RecoveryMailer.recovery(user).deliver_now
+    UserMailer.recovery(user).deliver_now
 
     head :created
   end
@@ -81,7 +82,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:email, :password, :admin)
+    params.require(:user).permit(:email, :password, :admin, :active)
   end
 
   def password_params
@@ -89,10 +90,9 @@ class UsersController < ApplicationController
   end
 
   def serialize(subject)
-    subject.as_json(include: {
-      mentor: {
-        only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :created_at, :updated_at]
-      }
-    }, only: [:id, :email, :admin, :created_at, :updated_at])
+    subject.as_json(only: [
+        :id, :name, :email, :bio, :picture, :picture_url, :year_in, :year_out, :location, :links, :active, :blocked,
+        :admin, :mentor
+    ], methods: [:career_ids])
   end
 end

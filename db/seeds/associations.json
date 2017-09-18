@@ -1,14 +1,20 @@
-{
-  "mario.carneiro@lifeonmars.pt": {
+[
+  {
+    "user": "mario.carneiro@lifeonmars.pt",
     "careers": ["Startup/Scaleup", "Established Company"],
-    "locations": ["Porto"]
+    "locations": ["Porto"],
+    "mentor": "Mário Carneiro"
   },
-  "hugo.peixoto@lifeonmars.pt": {
+  {
+    "user": "hugo@lifeonmars.pt",
     "careers": ["Academia", "Freelance"],
-    "locations": ["Lisbon", "Prague"]
+    "locations": ["Lisbon", "Prague"],
+    "mentor": "Hugo Peixoto"
   },
-  "julio.santos@lifeonmars.pt": {
+  {
+    "user": "julio@lifeonmars.pt",
     "careers": ["Entrepreneurship", "Management"],
-    "locations": ["Porto", "London"]
+    "locations": ["Porto", "London"],
+    "mentor": "Júlio Santos"
   }
-}
+]

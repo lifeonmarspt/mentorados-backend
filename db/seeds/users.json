@@ -6,12 +6,12 @@
     "admin": true
   },
   {
-    "email": "hugo.peixoto@lifeonmars.pt",
+    "email": "hugo@lifeonmars.pt",
     "password": "hunter3",
     "confirmed_at": "2017-05-15 22:48:00 +0100"
   },
   {
-    "email": "julio.santos@lifeonmars.pt",
+    "email": "julio@lifeonmars.pt",
     "password": "hunter3",
     "confirmed_at": "2017-05-15 22:48:00 +0100"
   }

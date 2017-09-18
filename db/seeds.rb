@@ -17,39 +17,40 @@ def populate(model)
 end
 
 # populate main tables
-populate(User)
-populate(Mentor)
 populate(Career)
 
-# associate users to mentors
-Mentor.all.each do |mentor|
-  user = User.find_by_email(mentor.email)
-  mentor.user = user
-  mentor.save
-end
-
-# create other associations
-associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_names: true)
-associations.each do |mentor_email, association|
-  mentor = Mentor.find_by_email(mentor_email)
-  careers = Career.where(description: association[:careers])
-  mentor.careers = careers
-  mentor.save
-end
-
-# Randomly generate mentors
-all_career_ids = Career.all.map { |c| c.id }
-
-20.times do
-  mentor = Mentor.new({
-    name: Faker::Name.name,
-    email: Faker::Internet.email,
-    gender: ['M', 'F'].sample,
-    bio: Faker::Lorem.paragraphs(5 + rand(5), true).join("\n"),
-    picture: Faker::Avatar.image,
-    year_in: 1995 + rand(15),
-    year_out: [nil, 2001 + rand(10)].sample,
-    career_ids: all_career_ids.sample(2)
-  })
-  mentor.save!
-end
+## create other associations
+#associations = JSON.parse(File.read("db/seeds/associations.json"), symbolize_names: true)
+#associations.each do |association|
+#  user = User.find_by_email(association[:user])
+#
+#  mentor = Mentor.find_by_name(association[:mentor])
+#  careers = Career.where(description: association[:careers])
+#
+#  user.mentor = mentor
+#  mentor.careers = careers
+#  mentor.save
+#  user.save
+#end
+#
+## Randomly generate mentors
+#all_career_ids = Career.all.map { |c| c.id }
+#
+#20.times do
+#  user = User.create!(
+#    email: Faker::Internet.email,
+#    password: "password",
+#  )
+#
+#  Mentor.create!(
+#    name: Faker::Name.name,
+#    gender: ['M', 'F'].sample,
+#    bio: Faker::Lorem.paragraphs(5 + rand(5), true).join("\n"),
+#    picture: Faker::Avatar.image,
+#    year_in: 1995 + rand(15),
+#    year_out: [nil, 2001 + rand(10)].sample,
+#    career_ids: all_career_ids.sample(2),
+#    user: user,
+#    active: [true, false].sample,
+#  )
+#end

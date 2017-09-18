@@ -3,10 +3,21 @@ class CreateUsers < ActiveRecord::Migration[5.1]
     create_table :users do |t|
       t.string :email, null: false, index: { unique: true }
       t.string :password_digest
-      t.boolean :admin, default: false
-      t.string :confirmation_token, null: false
-      t.timestamp :confirmed_at
-      t.timestamp :last_login_at
+      t.boolean :blocked, default: false
+
+      t.boolean :admin, default: false, null: false
+      t.boolean :mentor, default: false, null: false
+
+      t.boolean :active, default: false
+      t.text :name
+      t.text :bio
+      t.text :picture_url
+      t.text :picture
+      t.integer :year_in
+      t.integer :year_out
+      t.text :links, default: [], array: true
+      t.text :location
+
       t.timestamps
     end
   end

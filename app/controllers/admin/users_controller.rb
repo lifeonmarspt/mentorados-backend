@@ -19,7 +19,7 @@ class Admin::UsersController < ApplicationController
 
     if user.save
       # @todo don't use deliver_now, this blocks the thread.
-      WelcomerMailer.welcome(user).deliver_now
+      UserMailer.welcome(user).deliver_now
       render json: serialize(user), status: :created
     else
       render json: user.errors, status: :bad_request

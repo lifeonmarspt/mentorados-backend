@@ -2,22 +2,22 @@ class Admin::MentorsController < ApplicationController
   def index
     authorize Mentor
 
-    render json: serialize(Mentor.includes(:careers))
+    render json: Mentor.includes(:careers), each_serializer: Admin::MentorSerializer
   end
 
   def show
     mentor = Mentor.find(params[:id])
     authorize mentor
 
-    render json: serialize(mentor)
+    render json: mentor, serializer: Admin::MentorSerializer
   end
 
   def create
     authorize Mentor
-    mentor = Mentor.new(mentor_params)
+    mentor = Mentor.new(mentor_params.merge(user_attributes: user_params))
 
     if mentor.save
-      render json: serialize(mentor), status: :created
+      render json: mentor, status: :created, serializer: Admin::MentorSerializer
     else
       render json: mentor.errors, status: :bad_request
     end
@@ -28,7 +28,7 @@ class Admin::MentorsController < ApplicationController
     authorize mentor
 
     if mentor.update(mentor_params)
-      render json: serialize(mentor), status: :ok
+      render json: mentor, status: :ok, serializer: Admin::MentorSerializer
     else
       render json: mentor.errors, status: :bad_request
     end
@@ -46,7 +46,6 @@ class Admin::MentorsController < ApplicationController
   def mentor_params
     params.permit(
       :name,
-      :email,
       :location,
       :gender,
       :bio,
@@ -59,10 +58,7 @@ class Admin::MentorsController < ApplicationController
     )
   end
 
-  def serialize(subject)
-    subject.as_json(
-      only: [:id, :name, :email, :gender, :bio, :picture, :year_in, :year_out, :links, :location, :user_id, :active],
-      methods: [:career_ids],
-    )
+  def user_params
+    params.permit(:email)
   end
 end
