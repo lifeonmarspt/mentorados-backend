@@ -3,12 +3,7 @@ class MetaController < ApplicationController
     authorize :meta
 
     render json: {
-      genders: [
-        { id: "A", description: "All" },
-        { id: "F", description: "Female" },
-        { id: "M", description: "Male" },
-      ],
-
+      traits: Trait.all.as_json(only: [:id, :description]),
       careers: Career.all.as_json(only: [:id, :description]),
     }
   end

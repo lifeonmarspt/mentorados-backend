@@ -103,6 +103,6 @@ class UsersController < ApplicationController
     subject.as_json(only: [
         :id, :name, :email, :bio, :picture, :picture_url, :year_in, :year_out, :location, :links, :active, :blocked,
         :admin, :mentor
-    ], methods: [:career_ids])
+    ], methods: [:career_ids, :traits_list])
   end
 end
