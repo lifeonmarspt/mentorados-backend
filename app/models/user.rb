@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   scope :active_mentors, -> { where(mentor: true, active: true, blocked: false) }
 
+  SEARCHABLE_FIELDS = ["name", "bio", "location", "careers.description", "traits.description"]
+
   attr_accessor :signup
 
   def student
@@ -43,6 +45,26 @@ class User < ApplicationRecord
     self.traits = descriptions.map { |d| d.strip.downcase }.uniq.map do |description|
       Trait.where(description: description).first_or_create!
     end
+  end
+
+  def self.search_word(word)
+    SEARCHABLE_FIELDS.map do |field|
+      where(["unaccent(#{field}) ILIKE CONCAT('%', unaccent(?), '%')", word])
+    end.reduce(&:or)
+  end
+
+  def self.search(params)
+    mentors = left_outer_joins(:careers, :traits)
+
+    mentors = sanitize_sql_like(params[:string]).
+      split(/\s/).
+      map { |word| mentors.search_word(word) }.
+      reduce(mentors, &:merge) if params[:string]
+
+    mentors = mentors.where(mentors_careers: { career_id: params[:career_ids] }) if params[:career_ids]
+    mentors = mentors.where(user_traits: { trait_id: params[:trait_ids] }) if params[:trait_ids]
+
+    mentors.distinct
   end
 
   private
