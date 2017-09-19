@@ -10,7 +10,9 @@ module UserUpdater
       params = params.merge(picture: picture)
     end
 
-    user.update params
+    user.update(params).tap do |success|
+      delete_orphaned_traits if success
+    end
   end
 
   def self.gravatar_url email
@@ -21,5 +23,9 @@ module UserUpdater
 
   def self.base64_url url
     "data:;base64,#{Base64.encode64(Net::HTTP.get(URI(url)))}"
+  end
+
+  def self.delete_orphaned_traits
+    Trait.left_joins(:user_traits).where(user_traits: { trait_id: nil }).delete_all
   end
 end
