@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525112756) do
+ActiveRecord::Schema.define(version: 20170919104624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,21 @@ ActiveRecord::Schema.define(version: 20170525112756) do
     t.datetime "updated_at", null: false
     t.index ["career_id"], name: "index_mentors_careers_on_career_id"
     t.index ["user_id"], name: "index_mentors_careers_on_user_id"
+  end
+
+  create_table "traits", force: :cascade do |t|
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["description"], name: "index_traits_on_description", unique: true
+  end
+
+  create_table "user_traits", id: false, force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "trait_id"
+    t.index ["trait_id"], name: "index_user_traits_on_trait_id"
+    t.index ["user_id", "trait_id"], name: "index_user_traits_on_user_id_and_trait_id", unique: true
+    t.index ["user_id"], name: "index_user_traits_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,4 +69,6 @@ ActiveRecord::Schema.define(version: 20170525112756) do
 
   add_foreign_key "mentors_careers", "careers"
   add_foreign_key "mentors_careers", "users"
+  add_foreign_key "user_traits", "traits"
+  add_foreign_key "user_traits", "users"
 end
