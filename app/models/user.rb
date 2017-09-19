@@ -2,7 +2,9 @@ class User < ApplicationRecord
   has_secure_password validations: false
 
   has_many :mentors_careers
+  has_many :user_traits
   has_many :careers, through: :mentors_careers
+  has_many :traits, through: :user_traits
 
   validates :email, presence: true, uniqueness: true, email: true
 
@@ -31,6 +33,16 @@ class User < ApplicationRecord
 
   def to_token_payload
     self.attributes.symbolize_keys.slice(:id)
+  end
+
+  def traits_list
+    self.traits.map(&:description)
+  end
+
+  def traits_list= descriptions
+    self.traits = descriptions.map { |d| d.strip.downcase }.uniq.map do |description|
+      Trait.where(description: description).first_or_create!
+    end
   end
 
   private
