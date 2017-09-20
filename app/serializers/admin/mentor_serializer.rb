@@ -4,20 +4,15 @@ module Admin
       :id,
       :name,
       :email,
-      :gender,
       :bio,
       :picture,
       :year_in,
       :year_out,
       :links,
       :location,
-      :user_id,
       :active,
       :career_ids,
+      :trait_ids,
     )
-
-    def email
-      object.user&.email
-    end
   end
 end
