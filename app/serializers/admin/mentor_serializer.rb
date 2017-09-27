@@ -10,7 +10,10 @@ module Admin
       :year_out,
       :links,
       :location,
+      :admin,
       :active,
+      :mentor,
+      :blocked,
       :career_ids,
       :trait_ids,
     )

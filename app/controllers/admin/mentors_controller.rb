@@ -1,6 +1,6 @@
 class Admin::MentorsController < ApplicationController
   def index
-    authorize User, :mentors?
+    authorize User
 
     render json: User.where(mentor: true).includes(:careers, :traits), each_serializer: Admin::MentorSerializer
   end
@@ -14,7 +14,8 @@ class Admin::MentorsController < ApplicationController
 
   def create
     authorize User
-    @mentor = User.new(mentor_params)
+    @mentor = User.new(mentor: true)
+    @mentor.assign_attributes(permitted_attributes(@mentor))
 
     if @mentor.save
       render json: @mentor, status: :created, serializer: Admin::MentorSerializer
@@ -27,7 +28,7 @@ class Admin::MentorsController < ApplicationController
     @mentor = User.find(params[:id])
     authorize @mentor
 
-    if @mentor.update(mentor_params)
+    if @mentor.update(permitted_attributes(@mentor))
       render json: @mentor, status: :ok, serializer: Admin::MentorSerializer
     else
       render json: @mentor.errors, status: :bad_request
@@ -40,10 +41,5 @@ class Admin::MentorsController < ApplicationController
 
     mentor.destroy
     head :no_content
-  end
-
-  private
-  def mentor_params
-    params.permit(policy(@mentor).permitted_attributes)
   end
 end

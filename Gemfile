@@ -19,10 +19,15 @@ gem 'active_model_serializers', '~> 0.10.0'
 # gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # Adds support for Capybara system testing and selenium driver
+  gem 'awesome_print'
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw] # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'capybara', '~> 2.13.0'
+  gem 'dotenv-rails'
+  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'rspec'
+  gem 'rspec-rails', '~> 3.6'
   gem 'selenium-webdriver'
 end
 
@@ -35,12 +40,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # stuff
 gem 'pg'
-gem 'factory_girl'
 gem 'validate_url'
 gem 'validate_email'
 gem 'knock'
 gem 'pundit'
 gem 'rack-cors'
-gem 'faker', groups: [:development]
-gem 'dotenv-rails', groups: [:development, :test]
-gem 'awesome_print', groups: [:development, :test]
