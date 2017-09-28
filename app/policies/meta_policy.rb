@@ -1,5 +1,5 @@
 class MetaPolicy < ApplicationPolicy
   def index?
-    true
+    @user
   end
 end

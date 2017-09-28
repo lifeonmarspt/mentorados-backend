@@ -2,21 +2,26 @@ class PasswordRecoveryTokensController < ApplicationController
   def create
     skip_authorization
 
-    user = User.find_by!(email: password_recovery_token_params[:email])
+    user = User.find_by(email: password_recovery_token_params[:email])
 
-    token = Knock::AuthToken.new(payload: user.to_token_payload).token
-
-    UserMailer.recovery(user, token).deliver_now
-
-    head :created
+    if user
+      token = Knock::AuthToken.new(payload: user.to_token_payload).token
+      UserMailer.recovery(user, token).deliver_now
+      head :created
+    else
+      head :not_found
+    end
   end
 
   def show
     skip_authorization
 
-    token = Knock::AuthToken.new(token: params[:id])
-
-    render json: { user: { id: token.payload["id"] } }
+    begin
+      token = Knock::AuthToken.new(token: params[:id])
+      render json: { user: { id: token.payload["id"] } }
+    rescue JWT::DecodeError
+      head :not_found
+    end
   end
 
   def password_recovery_token_params

@@ -3,24 +3,26 @@ class Admin::UsersController < ApplicationController
     authorize User
 
     users = User.all
-    render json: serialize(users)
+    render json: users, each_serializer: Admin::UserSerializer
   end
 
   def show
     user = User.find(params[:id])
     authorize user
 
-    render json: serialize(user)
+    render json: user, serializer: Admin::UserSerializer
   end
 
   def create
     authorize User
-    user = User.new(user_params)
+    user = User.new
+    user.assign_attributes(permitted_attributes(user))
 
     if user.save
       # @todo don't use deliver_now, this blocks the thread.
-      UserMailer.welcome(user).deliver_now
-      render json: serialize(user), status: :created
+      token = Knock::AuthToken.new(payload: user.to_token_payload).token
+      UserMailer.welcome(user, token).deliver_now
+      render json: user, status: :created, serializer: Admin::UserSerializer
     else
       render json: user.errors, status: :bad_request
     end
@@ -30,8 +32,8 @@ class Admin::UsersController < ApplicationController
     user = User.find(params[:id])
     authorize user
 
-    if user.update(user_params)
-      render json: serialize(user), status: :ok
+    if user.update(permitted_attributes(user))
+      render json: user, status: :ok, serializer: Admin::UserSerializer
     else
       render json: user.errors, status: :bad_request
     end
@@ -43,14 +45,5 @@ class Admin::UsersController < ApplicationController
 
     user.destroy
     head :no_content
-  end
-
-  private
-  def user_params
-    params.permit(:email, :password, :admin)
-  end
-
-  def serialize(subject)
-    subject.as_json(only: [:id, :email, :admin, :created_at, :updated_at])
   end
 end
