@@ -12,4 +12,16 @@ RSpec.describe User do
     expect(user.valid?).to be false
   end
 
+  it "removes only career / trait associations on destroy" do
+    career = create(:career)
+    trait = create(:trait)
+    user = create(:user, careers: [ career ], traits: [ trait ])
+
+    user.destroy
+
+    expect(UserTrait.all).to be_empty
+    expect(MentorsCareer.all).to be_empty
+    expect(Trait.all).not_to be_empty
+    expect(Career.all).not_to be_empty
+  end
 end

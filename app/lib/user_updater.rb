@@ -15,6 +15,12 @@ module UserUpdater
     end
   end
 
+  def self.destroy user
+    user.destroy.tap do |success|
+      delete_orphaned_traits if success
+    end
+  end
+
   def self.gravatar_url email
     "https://www.gravatar.com/avatar/#{
       Digest::MD5.new.update(email).hexdigest
