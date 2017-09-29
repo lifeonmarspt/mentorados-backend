@@ -16,10 +16,24 @@ RSpec.describe MentorsController, type: :request do
       expect(response.status).to eq 200
     end
 
-    context "filters mentors" do
-      it "by careers"
-      it "by traits"
-      it "by search"
+    it "GET index with filters" do
+      # spied = spy(User)
+      allow(User).to receive(:search)
+
+      get "/mentors", headers: auth_headers, params: { career_ids: %w(0 1) }
+      params = ActionController::Parameters.new(career_ids: %w(0 1))
+      query = params.permit(:string, career_ids: [], trait_ids: [])
+      expect(User).to have_received(:search).with(query)
+
+      get "/mentors", headers: auth_headers, params: { career_ids: %w(0), trait_ids: %w(1 3) }
+      params = ActionController::Parameters.new(career_ids: %w(0), trait_ids: %w(1 3))
+      query = params.permit(:string, career_ids: [], trait_ids: [])
+      expect(User).to have_received(:search).with(query)
+
+      get "/mentors", headers: auth_headers, params: { string: "test", trait_ids: %w(1 3) }
+      params = ActionController::Parameters.new(string: "test", trait_ids: %w(1 3))
+      query = params.permit(:string, career_ids: [], trait_ids: [])
+      expect(User).to have_received(:search).with(query)
     end
   end
 

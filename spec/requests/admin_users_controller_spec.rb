@@ -31,7 +31,7 @@ RSpec.describe Admin::UsersController, type: :request do
       post "/admin/users", params: { user: attributes }, headers: auth_headers
       expect(response.status).to eq 201
 
-      attributes.except(:password, :name).each do |attr, val|
+      attributes.except(:password, :name, :active).each do |attr, val|
         expect(json[attr]).to eq val
       end
     end

@@ -3,6 +3,7 @@ FactoryGirl.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }
     admin false
+    active true
 
     trait :admin do
       admin true
