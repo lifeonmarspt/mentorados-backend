@@ -3,8 +3,8 @@ class User < ApplicationRecord
 
   has_many :mentors_careers
   has_many :user_traits
-  has_many :careers, through: :mentors_careers
-  has_many :traits, through: :user_traits
+  has_many :careers, through: :mentors_careers, dependent: :destroy
+  has_many :traits, through: :user_traits, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, email: true
 

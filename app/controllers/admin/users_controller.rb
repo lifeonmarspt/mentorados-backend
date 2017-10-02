@@ -32,7 +32,7 @@ class Admin::UsersController < ApplicationController
     user = User.find(params[:id])
     authorize user
 
-    if user.update(permitted_attributes(user))
+    if UserUpdater.update(user, permitted_attributes(user))
       render json: user, status: :ok, serializer: Admin::UserSerializer
     else
       render json: user.errors, status: :bad_request
@@ -43,7 +43,7 @@ class Admin::UsersController < ApplicationController
     user = User.find(params[:id])
     authorize user
 
-    user.destroy
+    UserUpdater.destroy(user)
     head :no_content
   end
 end

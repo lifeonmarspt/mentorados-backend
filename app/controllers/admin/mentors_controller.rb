@@ -28,7 +28,7 @@ class Admin::MentorsController < ApplicationController
     @mentor = User.find(params[:id])
     authorize @mentor
 
-    if @mentor.update(permitted_attributes(@mentor))
+    if UserUpdater.update(@mentor, permitted_attributes(@mentor))
       render json: @mentor, status: :ok, serializer: Admin::MentorSerializer
     else
       render json: @mentor.errors, status: :bad_request
@@ -39,7 +39,7 @@ class Admin::MentorsController < ApplicationController
     mentor = User.find(params[:id])
     authorize mentor
 
-    mentor.destroy
+    UserUpdater.destroy(mentor)
     head :no_content
   end
 end
