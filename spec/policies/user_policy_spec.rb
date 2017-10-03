@@ -83,7 +83,6 @@ describe UserPolicy do
         expected = %i(password email trait_ids blocked admin)
         expect(subject).to match_array(expected)
       end
-
     end
 
     context "as anyone editing mentor" do
@@ -95,7 +94,5 @@ describe UserPolicy do
         expect(subject).to match_array(expected)
       end
     end
-
   end
-
 end
