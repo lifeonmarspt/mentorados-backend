@@ -1,0 +1,10 @@
+pt:
+  user_mailer:
+    recovery:
+      title: Olá!
+      body1: Estás a receber este email porque pediste para recuperar a password da tua conta da platadorma Mentorados AlumniEI.
+      body2: "Recupera a password do teu registo através do seguinte link: " 
+
+    welcome:
+      title: Olá! Bem vindo ao programa de mentorados da AlumniEI.
+      body: "Por favor confirma o teu registo através do seguinte link: " 
