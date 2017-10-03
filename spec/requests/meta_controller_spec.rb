@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe MetaController, type: :request do
   let(:auth_headers) do
-    { "Authorization" => "Bearer #{@token}" }
+    token = Knock::AuthToken.new(payload: user.to_token_payload).token
+    { "Authorization" => "Bearer #{token}" }
   end
 
   before do
@@ -11,17 +12,14 @@ RSpec.describe MetaController, type: :request do
   end
 
   context "logged in" do
-    before do
-      user = create(:user)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user) }
 
     it "GET index" do
       get "/meta", headers: auth_headers
       expect(response.status).to eq 200
     end
 
-    it "returns all careers and traits" do
+    it "GET index returns all careers and traits" do
       get "/meta", headers: auth_headers
 
       expect(json["careers"].size).to eq 3

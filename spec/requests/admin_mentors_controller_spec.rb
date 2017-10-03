@@ -3,16 +3,14 @@ require 'rails_helper'
 RSpec.describe Admin::MentorsController, type: :request do
 
   let(:auth_headers) do
-    { "Authorization" => "Bearer #{@token}" }
+    token = Knock::AuthToken.new(payload: user.to_token_payload).token
+    { "Authorization" => "Bearer #{token}" }
   end
 
-  let!(:record) { create(:user, :mentor)}
+  let!(:record) { create(:user, :mentor) }
 
   context "as admin" do
-    before do
-      user = create(:user, :admin)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user, :admin) }
 
     it "GET index" do
       get "/admin/mentors", headers: auth_headers
@@ -48,10 +46,7 @@ RSpec.describe Admin::MentorsController, type: :request do
   end
 
   context "as mentor" do
-    before do
-      user = create(:user, :mentor)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user, :mentor) }
 
     it "does not GET index" do
       get "/admin/mentors", headers: auth_headers
@@ -69,7 +64,7 @@ RSpec.describe Admin::MentorsController, type: :request do
     end
 
     it "does not PUT update" do
-      put "/admin/mentors/#{record.id}", params: { name: "New Name" }, headers: auth_headers
+      put "/admin/mentors/#{record.id}", params: { user: { name: "New Name" } }, headers: auth_headers
       expect(response.status).to eq 401
     end
 
@@ -80,10 +75,7 @@ RSpec.describe Admin::MentorsController, type: :request do
   end
 
   context "as user" do
-    before do
-      user = create(:user)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user) }
 
     it "does not GET index" do
       get "/admin/mentors", headers: auth_headers
@@ -101,7 +93,7 @@ RSpec.describe Admin::MentorsController, type: :request do
     end
 
     it "does not PUT update" do
-      put "/admin/mentors/#{record.id}", params: { name: "New Name" }, headers: auth_headers
+      put "/admin/mentors/#{record.id}", params: { user: { name: "New Name" } }, headers: auth_headers
       expect(response.status).to eq 401
     end
 

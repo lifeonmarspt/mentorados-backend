@@ -3,16 +3,14 @@ require 'rails_helper'
 RSpec.describe Admin::UsersController, type: :request do
 
   let(:auth_headers) do
-    { "Authorization": "Bearer #{@token}"}
+    token = Knock::AuthToken.new(payload: user.to_token_payload).token
+    { "Authorization" => "Bearer #{token}" }
   end
 
   let!(:record) { create(:user) }
 
   context "as admin" do
-    before do
-      user = create(:user, :admin)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user, :admin) }
 
     it "GET index" do
       get "/admin/users", headers: auth_headers
@@ -31,7 +29,7 @@ RSpec.describe Admin::UsersController, type: :request do
       post "/admin/users", params: { user: attributes }, headers: auth_headers
       expect(response.status).to eq 201
 
-      attributes.except(:password, :name).each do |attr, val|
+      attributes.except(:password, :name, :active).each do |attr, val|
         expect(json[attr]).to eq val
       end
     end
@@ -49,10 +47,7 @@ RSpec.describe Admin::UsersController, type: :request do
   end
 
   context "as user" do
-    before do
-      user = create(:user)
-      @token = Knock::AuthToken.new(payload: user.to_token_payload).token
-    end
+    let(:user) { create(:user) }
 
     it "does not GET index" do
       get "/admin/users", headers: auth_headers
