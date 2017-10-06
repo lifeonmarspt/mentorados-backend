@@ -1,3 +1,5 @@
+require 'net/http'
+
 module UserUpdater
   def self.update user, params
     if params.include?(:picture_url)
