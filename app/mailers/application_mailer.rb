@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'noreply@lifeonmars.pt'
+  default from: 'mentor@alumniei.pt'
   layout 'mailer'
 end
