@@ -18,6 +18,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = request.headers["Accept-Language"] || I18n.default_locale
+    wanted = (request.headers["Accept-Language"] || "en")[0..1].to_sym
+    locale = I18n.available_locales.include?(wanted) ? wanted : I18n.default_locale
+
+    I18n.locale = locale
   end
 end
