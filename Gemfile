@@ -9,6 +9,7 @@ gem 'pg'
 gem 'puma', '~> 3.7'
 gem 'pundit'
 gem 'rack-cors'
+gem 'sendgrid-ruby'
 gem 'validate_email'
 gem 'validate_url'
 
